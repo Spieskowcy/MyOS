@@ -75,6 +75,51 @@ int printf(const char* restrict format, ...) {
 			if(!print(str, len))
 				return -1;
 			written += len;
+		}else if(*format == 'X' || *format == 'x'){
+			char f = *format;
+			format++;
+			int value = va_arg(parameters, int);
+			char str[12] = "";
+			itoa(value, str, HEX);
+			size_t len = strlen(str);
+			if(maxrem < len){
+				// TODO: Set errno to EOVERFLOW.
+				return -1;
+			}
+			if(f == 'x')
+				strlwr(str);
+			if(!print(str, len))
+				return -1;
+			written += len;
+		}else if(*format == 'b'){
+			format++;
+			int value = va_arg(parameters, int);
+			char str[34] = "";
+			itoa(value, str, BINARY);
+			size_t len = strlen(str);
+			if(maxrem < len){
+                                // TODO: Set errno to EOVERFLOW.
+                                return -1;
+                        }
+                        if(!print(str, len))
+                                return -1;
+                        written += len;
+		}else if(*format == 'p'){
+			format++;
+			int value = va_arg(parameters, void*);
+			char str[36] = "";
+			str[0] = '0';
+			str[1] = 'x';
+			char* str_ptr = str + 2;
+			itoa(value, str_ptr, HEX);
+			size_t len = strlen(str);
+			if(maxrem < len){
+                                // TODO: Set errno to EOVERFLOW.
+                                return -1;
+                        }
+                        if(!print(str, len))
+                                return -1;
+                        written += len;
 		}else{
 			format = format_begun_at;
 			size_t len = strlen(format);

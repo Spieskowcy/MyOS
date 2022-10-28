@@ -2,31 +2,33 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-void transform_decimal(int value, size_t * num_of_nums, int* numbers, int base){
-	while(value > 0){
-		numbers[*num_of_nums] = value%base;
-		(*num_of_nums)++;
-		value = value/base;
+
+char get_ascii(int number){
+	if(number < 10){
+		return number+48;
+	}else{
+		return number+55;
 	}
-	num_of_nums--;
+}
+
+void split_to_numbers(int value, size_t * num_of_char, char* str, int base){
+        while(value > 0){
+                str[(*num_of_char)] = get_ascii(value%base);
+                (*num_of_char)++;
+                value = value/base;
+        }
 }
 
 char* itoa(int value, char* str, int base){
-	int numbers[12];
-	size_t num_of_char = 0, num_of_nums = 0;
-	if(value < 0){
-		str[num_of_char] = '-';
-		num_of_char++;
-	}
+	size_t num_of_char = 0;
 	int unsign_val = abs(value);
-	if(base == DECIMAL){
-		transform_decimal(unsign_val, &num_of_nums, numbers, base);
-	}
-	while(num_of_nums){
-		str[num_of_char] = numbers[num_of_nums]+49;
-		num_of_nums--;
-		num_of_char++;
-	}
+	split_to_numbers(unsign_val, &num_of_char, str, base);
+	if(value < 0){
+                str[num_of_char] = '-';
+                num_of_char++;
+        }
+
 	str[num_of_char] = '\0';
+//	strrev(str);
 	return str;
 }

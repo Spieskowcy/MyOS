@@ -4,5 +4,6 @@
 
 void kernel_main(void) {
 	terminal_initialize();
-	printf("Are you working? %d\n", (-12));
+	int v = 12;
+	printf("Are you working? %p\n", &v);
 }

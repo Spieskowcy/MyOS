@@ -3,7 +3,9 @@
 
 #include <sys/cdefs.h>
 
+#define BINARY 2
 #define DECIMAL 10
+#define HEX 16
 
 #ifdef __cplusplus
 extern "C" {
