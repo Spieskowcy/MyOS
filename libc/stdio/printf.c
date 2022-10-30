@@ -110,7 +110,14 @@ int printf(const char* restrict format, ...) {
 			char str[36] = "";
 			str[0] = '0';
 			str[1] = 'x';
-			char* str_ptr = str + 2;
+			size_t idx = 2;
+			unsigned int mask = 0xF0000000;
+			while((mask&value) == 0){
+				str[idx] = '0';
+				idx++;
+				mask >>= 4;
+			}
+			char* str_ptr = str + idx;
 			itoa(value, str_ptr, HEX);
 			size_t len = strlen(str);
 			if(maxrem < len){
