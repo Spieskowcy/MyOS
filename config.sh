@@ -1,5 +1,5 @@
-SYSTEM_HEADER_PROJECTS="libc kernel"
-PROJECTS="libc kernel"
+SYSTEM_HEADER_PROJECTS="libc kernel $TEST_ENV"
+PROJECTS="libc kernel $TEST_ENV"
 
 export MAKE=${MAKE:-make}
 export HOST=${HOST:-$(./default-host.sh)}
