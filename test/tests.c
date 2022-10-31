@@ -10,7 +10,6 @@ TEST(strlenTest){
 	char* str = "abc";
 	size_t size = strlen(str);
 	ASSERT(size, 3);
-	RETURN
 }
 
 void kernel_main(void) {
