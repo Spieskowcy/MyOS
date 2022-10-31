@@ -8,7 +8,7 @@
 #define PASS {serial_writestring("Test passed\n"); *(error_count) = 0; return;}
 
 #define ASSERT(x, y) if (x == y) {} \
-	else { serial_writestring("Assert fail on "); serial_writestring(__FILE__); /* serial_writestring(__LINE__); to be replaced with sprintf*/ (*error_count)++; return;}
+	else {serial_writestring("Assert fail on "); serial_writestring(__FILE__); /* serial_writestring(__LINE__); to be replaced with sprintf*/ (*error_count)++; return;}
 #define EXPECT(x, y) if (x == y) {} \
 	else { serial_writestring("Assert fail on "); serial_writestring(__FILE__); /* serial_writestring(__LINE__); to be replaced with sprintf*/ (*error_count)++;}
 
