@@ -11,7 +11,7 @@ char get_ascii(int number){
 	}
 }
 
-void split_to_numbers(unsigned int value, size_t * num_of_char, char* str, int base){
+void split_to_numbers(unsigned int value, size_t* num_of_char, char* str, int base){
 	while(value != 0){
                 str[(*num_of_char)] = get_ascii(value%base);
                 (*num_of_char)++;
