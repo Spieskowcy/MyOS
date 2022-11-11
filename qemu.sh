@@ -2,4 +2,4 @@
 set -e
 . ./iso.sh
 
-qemu-system-i386 -kernel sysroot/boot/myos.kernel
+qemu-system-i386 -cdrom myos.iso -s
