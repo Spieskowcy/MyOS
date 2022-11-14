@@ -15,17 +15,26 @@ void init_memory_manager(void* base, size_t length){
 }
 
 void* allocate_next(memory_descriptor_t* desc, size_t length){
+	if(!(desc->flags & MEMORY_FLAGS.USED) && desc->size > length){
+		desc->flags |= MEMORY_FLAGS.USED;
+		memory_descriptor_t* next = desc + desc->size;
+		int s = desc->size - length - sizeof(memory_descriptor_t);
+		desc->size = length + sizeof(memory_descriptor_t);
+		next->flags = 0;
+		next->size = s;
+		return desc + sizeof(memory_descriptor_t);
+	}
+	// TODO combine sectors
 
+	return NULL;
 }
 
 void deallocate(memory_descriptor_t* desc){
-	desc &= !USED_FLAG;
-	
+	desc &= !MEMORY_FLAGS.USED;
 }
 
 memory_descriptor_t* get_initial_memory_descriptor(){
 	return available_memory.base;
-
 }
 
 size_t get_available_memory(){

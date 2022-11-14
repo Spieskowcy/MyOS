@@ -1,7 +1,9 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define USED_FLAG 0x00000001
+enum MEMORY_FLAGS {
+    USED = 0
+};
 
 typedef struct {
     size_t size;
