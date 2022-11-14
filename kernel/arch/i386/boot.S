@@ -28,6 +28,10 @@ _start:
 
 	call InstallGDT
 
+	push %eax
+	push %ebx
+	call _init_mmap # void _init_mmap(multiboot_info_t* mbd, uint32_t magic)
+
 	# Call the global constructors.
 	call _init
 
