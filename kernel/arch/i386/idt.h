@@ -2,6 +2,7 @@
 #define _IDT_H_
 
 #include <stdint.h>
+#include "pic.h"
 
 #define IDT_MAX_DESCRIPTORS 256
 

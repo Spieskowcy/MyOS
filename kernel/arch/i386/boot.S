@@ -28,6 +28,8 @@ _start:
 
 	call InstallGDT
 
+    call idt_init
+
 	push %eax
 	push %ebx
 	call _init_mmap # void _init_mmap(multiboot_info_t* mbd, uint32_t magic)

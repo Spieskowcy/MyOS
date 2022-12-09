@@ -129,5 +129,8 @@ void idt_init(void)
 
     __asm__ volatile ("lidt %0" : : "m"(idt_reg));
 	__asm__ volatile ("sti");
+
+    //pic
+    PIC_disable();
 }
 
