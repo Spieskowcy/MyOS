@@ -1,16 +1,20 @@
+
 .macro ISR num
     .globl isr_\num
     isr_\num:
-        call exception_handler
-    	iret
+        cli
+        push    $0
+        push    $\num
+        jmp     isr_common
 .endm
 
 
 .macro ISR_ERR num
     .globl isr_\num
     isr_\num:
-   	call exception_handler
-    	iret
+        cli
+        push    $\num
+        jmp     isr_common
 .endm
 
 ISR 0
