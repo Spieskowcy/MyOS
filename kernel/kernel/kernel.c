@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include "../arch/i386/isr.h"
 #include <kernel/tty.h>
 void func(void){
     printf("text");
