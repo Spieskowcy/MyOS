@@ -26,7 +26,6 @@ stack_top:
 _start:
 	movl $stack_top, %esp
 
-	call InstallGDT
 
 	push %eax
 	push %ebx
