@@ -1,2 +1,3 @@
-static void keyboard_decode(char scan_code);
+char keyboard_decode(unsigned char scan_code);
 void keyboard_Handler(void);
+
