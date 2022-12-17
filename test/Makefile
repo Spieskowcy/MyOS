@@ -30,7 +30,6 @@ LIBS:=$(LIBS) $(KERNEL_ARCH_LIBS)
 KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
 tests.o \
-../kernel/kernel/keyboard.o \
 ../kernel/kernel/memory.o \
 
 OBJS=\

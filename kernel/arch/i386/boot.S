@@ -26,8 +26,6 @@ stack_top:
 _start:
 	movl $stack_top, %esp
 
-	call InstallGDT
-
 	push %eax
 	push %ebx
 	call _init_mmap # void _init_mmap(multiboot_info_t* mbd, uint32_t magic)

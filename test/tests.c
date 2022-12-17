@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-#include <kernel/keyboard.h>
 #include <kernel/com.h>
 #include <kernel/asm.h>
 #include <test.h>
