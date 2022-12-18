@@ -1,4 +1,3 @@
-#define VGA_WIDTH 80
 char keyboard_decode(unsigned char scan_code);
 void keyboard_handler();
 

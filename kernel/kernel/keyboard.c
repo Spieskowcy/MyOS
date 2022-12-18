@@ -1,4 +1,7 @@
 #include <kernel/keyboard.h>
+#include <kernel/tty.h>
+#include <string.h>
+#include <stdio.h>
 
 char scan_codes[][3] =
 {
@@ -77,72 +80,40 @@ char keyboard_decode(unsigned char scan_code)
     return ret;
 }
 
-void enable_cursor(unsigned char cursor_start, unsigned char cursor_end)
-{
-	outportb(0x3D4, 0x0A);
-	outportb(0x3D5, (inportb(0x3D5) & 0xC0) | cursor_start);
- 
-	outportb(0x3D4, 0x0B);
-	outportb(0x3D5, (inportb(0x3D5) & 0xE0) | cursor_end);
-}
-void update_cursor(int x, int y)
-{
-	unsigned int pos = y * VGA_WIDTH + x;
- 
-	outportb(0x3D4, 0x0F);
-	outportb(0x3D5, (unsigned char) (pos & 0xFF));
-	outportb(0x3D4, 0x0E);
-	outportb(0x3D5, (unsigned char) ((pos >> 8) & 0xFF));
-}
+
 void keyboard_handler()
 {
-	int x=0, y=0;
-	unsigned char* display_address = 0xB8000;
-	enable_cursor(0,15);
-	update_cursor(0,0);
 	unsigned int port = 0x60;
-	char text[2];
-	text[1] = '\0';
 	while(1)
 	{
-		update_cursor(x,y);
-		if(x==VGA_WIDTH)
-		{
-			y++;
-			x=0;
-		}
 		if(inportb(0x64) & 1)
 		{
 			unsigned char scan_code = inportb(port);
 			//printf(" %X", scan_code);
 			if(scan_code==0x1C) //enter
 			{
-				y++;
-				x=0;
+				char text[VGA_WIDTH];
+				int length = terminal_getstring(text);
+				terminal_putchar('\n');
+				if(memcmp(text, "ping",length) == 0)
+					printf("pong\n");
+				else
+				{
+					printf(text);
+					terminal_putchar('\n');
+				}
+					
 				continue;
 			}
 			if(scan_code==0x0E) //backspace
 			{
-				if(x==0 && y==0)
-					continue;
-				if(x==0)
-				{
-					x=VGA_WIDTH-1;
-					y--;
-				}
-				else
-				{
-					x--;
-				}
-				*(display_address+2*x+2*y*VGA_WIDTH) = ' ';
+				terminal_putchar(0x08);
 				continue;
 			}
 			unsigned char sign = keyboard_decode(scan_code);
 			if(sign!='\0')
 			{
-				*(display_address+2*x+2*y*VGA_WIDTH) = sign;
-				*(display_address+2*x+2*y*VGA_WIDTH+1) = 0x0F;
-				x++;
+				terminal_putchar(sign);
 			}
 			
 		}
