@@ -2,6 +2,7 @@
 
 #include <kernel/tty.h>
 #include <kernel/fat16.h>
+#include <kernel/keyboard.h>
 BiosParamBlock bpb =
 {
     .jump = { 0xeb, 0x3c, 0x90 }, // short jmp followed by nop
@@ -25,6 +26,8 @@ BiosParamBlock bpb =
     .volumeLabel = { 'V', 'o', 'l', 'u', 'm', 'e', ' ', 'N', 'a', 'm', 'e' },
     .fileSystem = { 'F', 'A', 'T', '1', '6', ' ', ' ', ' ' },
 };
+
+
 void kernel_main(void) {
 	terminal_initialize();
 	int v = 12;
@@ -45,4 +48,8 @@ void kernel_main(void) {
     char *writtenData = (char *)(image + FatGetClusterOffset(image, rootClusterIndex));
 
     printf("; %s", writtenData);
+	//printf("Are you working? %p wsk: %p  hex: %X  hex2: %x dec: %d dec2: %i\n", &v, wsk, b, a, b, a);
+
+	keyboard_handler();
+
 }

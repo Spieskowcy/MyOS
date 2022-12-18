@@ -8,6 +8,7 @@
 
 #include <string.h>
 
+
 TEST(strlenTest){
 	char* str = "abc";
 	size_t size = strlen(str);
