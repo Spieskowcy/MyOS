@@ -31,6 +31,7 @@ KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
 tests.o \
 ../kernel/kernel/memory.o \
+../kernel/kernel/keyboard.o \
 
 OBJS=\
 $(ARCHDIR)/crti.o \
