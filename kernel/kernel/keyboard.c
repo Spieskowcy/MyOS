@@ -104,9 +104,7 @@ void keyboard_handler(BiosParamBlock* img)
 						state = 1;
 					}else if(memcmp(text, "load", length) == 0){
 						state = 3;
-					
-
-					
+		
 					} else {
 						printf(text);
 						terminal_putchar('\n');
@@ -138,4 +136,3 @@ void keyboard_handler(BiosParamBlock* img)
 		}
 	}
 }
- 
