@@ -30,6 +30,7 @@ LIBS:=$(LIBS) $(KERNEL_ARCH_LIBS)
 KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
 tests.o \
+kernel/memory.o \
 
 OBJS=\
 $(ARCHDIR)/crti.o \
