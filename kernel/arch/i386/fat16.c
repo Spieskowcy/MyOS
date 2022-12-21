@@ -373,3 +373,36 @@ void FatRemoveFile(u8* image, DirEntry* entry)
     FatRemoveData(image, entry->clusterIndex);
     FatRemoveDirEntry(entry);
 }
+
+DirEntry* FatFindFile(char* image, char* filename){
+	DirEntry* rootDir = FatGetRootDirectory(image);
+	BiosParamBlock* bpb = (BiosParamBlock*)image;
+
+	for(int i = 0; i < bpb->rootEntryCount; i++){
+		if(memcmp(rootDir[i].name, filename, strlen(rootDir[i].name))){
+			return &rootDir[i];
+		}
+	}
+	return 0;
+
+}
+
+void FatPrintFile(char* image, char* filename){
+	char* writtenData;
+	DirEntry* file = FatFindFile(image, filename);
+	if(file == 0){
+		printf(" :( %s", "File not found");
+		return;
+	}
+	u16 endOfChainValue = FatGetClusterValue(image, 0, 1);
+
+	printf("endOfChain: %i", endOfChainValue);
+	u16 clusterIdx = file->clusterIndex;
+	while(clusterIdx != endOfChainValue){
+		char *writtenData = (char *)(image + FatGetClusterOffset(image, clusterIdx));
+		printf(" : %s", writtenData);
+		clusterIdx = FatGetClusterValue(image, 0, clusterIdx);
+
+	}
+
+}

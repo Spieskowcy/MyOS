@@ -85,3 +85,4 @@ u16 FatAddData(u8* image, const void* data, uint len);
 void FatRemoveData(u8* image, uint rootClusterIndex);
 DirEntry* FatAddFile(u8* image, const char* path, const void* data, uint len);
 void FatRemoveFile(u8* image, DirEntry* entry);
+void FatPrintFile(char* image, char* filename);
