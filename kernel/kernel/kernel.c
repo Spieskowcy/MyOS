@@ -50,6 +50,6 @@ void kernel_main(void) {
     printf("; %s", writtenData);
 	//printf("Are you working? %p wsk: %p  hex: %X  hex2: %x dec: %d dec2: %i\n", &v, wsk, b, a, b, a);
 
-	keyboard_handler();
+	keyboard_handler(image);
 
 }
