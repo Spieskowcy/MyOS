@@ -4,6 +4,7 @@ typedef unsigned int u32;
 typedef unsigned int uint;
 
 #include <stdbool.h>
+#include <kernel/memory.h>
 
 #define PACKED __attribute__((__packed__))
 

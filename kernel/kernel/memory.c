@@ -15,8 +15,8 @@ void init_memory_manager(void* base, size_t length){
 }
 
 void* allocate_next(memory_descriptor_t* desc, size_t length){
-	if(!(desc->flags & MEMORY_FLAGS.USED) && desc->size > length){
-		desc->flags |= MEMORY_FLAGS.USED;
+	if(!(desc->flags & USED_FLAG) && desc->size > length){
+		desc->flags |= USED_FLAG;
 		memory_descriptor_t* next = desc + desc->size;
 		int s = desc->size - length - sizeof(memory_descriptor_t);
 		desc->size = length + sizeof(memory_descriptor_t);
@@ -29,14 +29,15 @@ void* allocate_next(memory_descriptor_t* desc, size_t length){
 	return NULL;
 }
 
+void* malloc(size_t length){
+	memory_descriptor_t* m = get_initial_memory_descriptor();
+	return allocate_next(m, length);
+}
+
 void deallocate(memory_descriptor_t* desc){
-	desc &= !MEMORY_FLAGS.USED;
+	desc->flags &= !USED_FLAG;
 }
 
 memory_descriptor_t* get_initial_memory_descriptor(){
 	return available_memory.base;
-}
-
-size_t get_available_memory(){
-	return available_memory.length - available_memory.base;
 }

@@ -1,9 +1,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-enum MEMORY_FLAGS {
-    USED = 0
-};
+#define USED_FLAG 1
 
 typedef struct {
     size_t size;
@@ -16,9 +14,9 @@ void* allocate_next(memory_descriptor_t* desc, size_t length);
 
 void deallocate(memory_descriptor_t* desc);
 
-memory_descriptor_t* get_initial_memory_descriptor();
+void* malloc(size_t length);
 
-size_t get_available_memory();
+memory_descriptor_t* get_initial_memory_descriptor();
 
 
 

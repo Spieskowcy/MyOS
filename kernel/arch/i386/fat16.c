@@ -1,9 +1,7 @@
-#include "fat16.h"
-#include <assert.h>
-#include <ctype.h>
+#include "kernel/fat16.h"
 #include <stdlib.h>
 #include <string.h>
-
+#define assert(ignore) ((void)0)
 // ------------------------------------------------------------------------------------------------
 uint FatGetTotalSectorCount(u8* image)
 {
@@ -106,10 +104,11 @@ DirEntry* FatGetRootDirectory(u8* image)
     return (DirEntry*)(image + offset);
 }
 
+char storage[512*1000];
 // ------------------------------------------------------------------------------------------------
 u8* FatAllocImage(uint imageSize)
 {
-    u8* image = (u8*)malloc(imageSize);
+    u8* image = (u8*)(&storage);
     memset(image, ENTRY_ERASED, imageSize);
     return image;
 }
@@ -210,7 +209,7 @@ static void SetPaddedString(u8* dst, uint dstLen, const char* src, uint srcLen)
 
         for (uint i = 0; i < dstLen; ++i)
         {
-            dst[i] = toupper(dst[i]);
+            dst[i] = strupr(dst[i]);
         }
     }
     else
@@ -222,7 +221,7 @@ static void SetPaddedString(u8* dst, uint dstLen, const char* src, uint srcLen)
 // ------------------------------------------------------------------------------------------------
 void FatSplitPath(u8 dstName[8], u8 dstExt[3], const char* path)
 {
-    const char* name = strrchr(path, '/');
+    const char* name;// = strrchr(path, '/');
     if (name)
     {
         name = name + 1;
@@ -236,7 +235,7 @@ void FatSplitPath(u8 dstName[8], u8 dstExt[3], const char* path)
 
     char* ext = 0;
     uint extLen = 0;
-    char* p = strchr(name, '.');
+    char* p;// = strchr(name, '.');
     if (p)
     {
         nameLen = p - name;
