@@ -34,17 +34,17 @@ void kernel_main(void) {
 	int a = 0xF, b = 0xF0000000;
 	int* wsk = &v; 
 	printf("Are you working? %p wsk: %p  hex: %X  hex2: %x dec: %d dec2: %i\n", &v, wsk, b, a, b, a);
-    uint imageSize = bpb.sectorCount * bpb.bytesPerSector;
-    u8 *image = FatAllocImage(imageSize);
+    unsigned int imageSize = bpb.sectorCount * bpb.bytesPerSector;
+    char *image = FatAllocImage(imageSize);
     printf("-> %p", image);
 
-    u8 bootSector[0x200];
+    char bootSector[0x200];
     memset(bootSector, 0, sizeof(bootSector));
     memcpy(bootSector, &bpb, sizeof(bpb));
     bootSector[0x1fe] = 0x55;
     bootSector[0x1ff] = 0xaa;
     char *data = "Hello World!";
-    u16 rootClusterIndex = FatAddData(image, data, strlen(data) + 1);
+    unsigned short rootClusterIndex = FatAddData(image, data, strlen(data) + 1);
     char *writtenData = (char *)(image + FatGetClusterOffset(image, rootClusterIndex));
 
     printf("; %s", writtenData);
