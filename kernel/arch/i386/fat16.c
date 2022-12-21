@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #define assert(ignore) ((void)0)
+
 // ------------------------------------------------------------------------------------------------
 uint FatGetTotalSectorCount(u8* image)
 {
@@ -143,6 +144,7 @@ bool FatInitImage(u8* image, u8* bootSector)
 }
 
 // ------------------------------------------------------------------------------------------------
+int occupiedClusters = 2;
 u16 FatFindFreeCluster(u8* image)
 {
     uint clusterCount = FatGetClusterCount(image);
@@ -154,7 +156,7 @@ u16 FatFindFreeCluster(u8* image)
         u16 data = fat[clusterIndex];
         if (data == 0)
         {
-            return clusterIndex;
+            return occupiedClusters++;
         }
     }
 
@@ -361,7 +363,7 @@ DirEntry* FatAddFile(u8* image, const char* path, const void* data, uint len)
     // Update Directory Entry
     u8 name[8];
     u8 ext[3];
-    FatSplitPath(name, ext, path);
+    memcpy(name,path,8);
 
     FatUpdateDirEntry(entry, rootClusterIndex, name, ext, len);
     return entry;
@@ -379,7 +381,7 @@ DirEntry* FatFindFile(char* image, char* filename){
 	BiosParamBlock* bpb = (BiosParamBlock*)image;
 
 	for(int i = 0; i < bpb->rootEntryCount; i++){
-		if(memcmp(rootDir[i].name, filename, strlen(rootDir[i].name))){
+		if(memcmp(rootDir[i].name, filename, strlen(rootDir[i].name)) == 0){
 			return &rootDir[i];
 		}
 	}
