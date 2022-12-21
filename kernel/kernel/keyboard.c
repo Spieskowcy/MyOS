@@ -103,6 +103,10 @@ void keyboard_handler(BiosParamBlock* img)
 					else if(memcmp(text, "save", length) == 0){
 						state = 1;
 						printf("File name: ");
+					}else if(memcmp(text, "load", length) == 0){
+						state = 3;
+						printf("File name: ");
+					
 					} else {
 						printf(text);
 						terminal_putchar('\n');
@@ -115,6 +119,9 @@ void keyboard_handler(BiosParamBlock* img)
 				 DirEntry* entry = FatAddFile(img, fname, text, length);
 					state = 0;
 
+				}else if(state == 3){
+					FatPrintFile(img, text);
+					state = 0;
 				}
 					
 				continue;
