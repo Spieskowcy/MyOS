@@ -81,9 +81,11 @@ char keyboard_decode(unsigned char scan_code)
 }
 
 
-void keyboard_handler()
+void keyboard_handler(BiosParamBlock* img)
 {
 	unsigned int port = 0x60;
+	int state = 0;
+	char fname[8];
 	while(1)
 	{
 		if(inportb(0x64) & 1)
@@ -95,12 +97,27 @@ void keyboard_handler()
 				char text[VGA_WIDTH];
 				int length = terminal_getstring(text);
 				terminal_putchar('\n');
-				if(memcmp(text, "ping",length) == 0)
-					printf("pong\n");
-				else
-				{
-					printf(text);
-					terminal_putchar('\n');
+				if(state == 0){
+					if(memcmp(text, "ping",length) == 0)
+						printf("pong\n");
+					else if(memcmp(text, "save", length) == 0){
+						state = 1;
+					}else if(memcmp(text, "load", length) == 0){
+						state = 3;
+		
+					} else {
+						printf(text);
+						terminal_putchar('\n');
+					}
+				} else if (state == 1){
+					memcpy(fname, text, length);
+					state = 2;
+				} else if (state == 2){
+				 DirEntry* entry = FatAddFile(img, fname, text, length);
+					state = 0;
+				}else if(state == 3){
+					FatPrintFile(img, text);
+					state = 0;
 				}
 					
 				continue;
@@ -119,4 +136,3 @@ void keyboard_handler()
 		}
 	}
 }
- 

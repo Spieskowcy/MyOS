@@ -1,6 +1,6 @@
+#include <kernel/fat16.h>
 char keyboard_decode(unsigned char scan_code);
-void keyboard_handler();
-
+void keyboard_handler(BiosParamBlock* img);
 /* Input a byte from a port */
 inline unsigned char inportb(unsigned int port)
 {
