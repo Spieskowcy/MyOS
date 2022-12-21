@@ -398,7 +398,6 @@ void FatPrintFile(char* image, char* filename){
 	}
 	u16 endOfChainValue = FatGetClusterValue(image, 0, 1);
 
-	printf("endOfChain: %i", endOfChainValue);
 	u16 clusterIdx = file->clusterIndex;
 	while(clusterIdx != endOfChainValue){
 		char *writtenData = (char *)(image + FatGetClusterOffset(image, clusterIdx));
