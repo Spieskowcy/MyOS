@@ -40,5 +40,4 @@ struct isr_frame {
 #define ISR_COM1        36
 #define ISR_SYSCALL     128
 
-#endif /* BEEOS_ARCH_X86_ISR_ARCH_H_ */
-
+#endif

@@ -1,5 +1,5 @@
-#ifndef BEEOS_ISR_H_
-#define BEEOS_ISR_H_
+#ifndef _ISR_H_
+#define _ISR_H_
 
 #include "isr_arch.h"
 #include "proc.h"
@@ -13,7 +13,7 @@ void isr_register_handler(unsigned int num, isr_handler_t func);
 
 void isr_init(void);
 
-#endif /* BEEOS_ISR_H_ */
+#endif 
 
 
 
